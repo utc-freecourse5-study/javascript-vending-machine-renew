@@ -7,6 +7,7 @@ class VendingMachine {
     COIN_50: 0,
     COIN_10: 0,
   };
+  #money = 0;
   #products = [];
 
   constructor(money) {
@@ -37,6 +38,10 @@ class VendingMachine {
       .map((product) => ({ name: product[0], price: Number(product[1]), count: Number(product[2]) }));
 
     this.#products.push(newProduct);
+  }
+
+  setMoney(money) {
+    this.#money = money;
   }
 }
 
