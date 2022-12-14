@@ -191,19 +191,10 @@ class VendingMachine {
 }
 ```
 
-### Coin 객체
+### RandomCoinGenerator 객체
 
-- 제공된 `Coin` 객체를 활용해 구현해야 한다.
-- `Coin`의 파일 경로는 변경할 수 있다.
-
-```jsx
-const Coin = {
-  COIN_500: 500,
-  COIN_100: 100,
-  COIN_50: 50,
-  COIN_10: 10,
-};
-```
+- Random 값 추출은 제공된 `RandomCoinGenerator`의 `generate()`를 활용한다.
+- `RandomCoinGenerator`의 코드는 변경할 수 없다.
 
 ### 라이브러리
 
