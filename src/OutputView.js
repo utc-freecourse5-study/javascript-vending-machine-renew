@@ -20,6 +20,10 @@ const OutputView = {
     COIN_50 && MissionUtils.Console.print(`50원 - ${COIN_50}개`);
     COIN_10 && MissionUtils.Console.print(`10원 - ${COIN_10}개`);
   },
+
+  printErrorMessage(error) {
+    MissionUtils.Console.print(error.message);
+  },
 };
 
 module.exports = OutputView;
