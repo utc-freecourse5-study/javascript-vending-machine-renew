@@ -43,6 +43,7 @@ class VendingMachine {
   purchaseProduct(productName) {
     this.#products.forEach((product) => {
       if (product.name === productName) {
+        InputValidator.validateAvailablePurchase(product, this.#userMoney);
         this.#userMoney -= product.price;
         product.count -= 1;
       }

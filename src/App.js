@@ -47,7 +47,10 @@ class App {
   requestProductName() {
     OutputView.printCurrentUserMoney(this.#vendingMachine.getUserMoney());
     InputView.readProductName((productName) => {
-      this.#vendingMachine.purchaseProduct(productName);
+      if (!this.tryValidate(this.#vendingMachine.purchaseProduct, productName)) {
+        this.requestProductName();
+        return;
+      }
       if (this.#vendingMachine.isAvailablePurchase()) this.requestProductName();
       if (!this.#vendingMachine.isAvailablePurchase()) this.end();
     });
