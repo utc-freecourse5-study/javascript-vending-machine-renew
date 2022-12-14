@@ -60,6 +60,51 @@ class VendingMachine {
     return isAvailable;
   }
 
+  #isCoinsEmpty() {
+    return (
+      this.#coins.COIN_10 === 0 && this.#coins.COIN_50 === 0 && this.#coins.COIN_100 === 0 && this.#coins.COIN_500 === 0
+    );
+  }
+
+  #coinFiveHundredBack(changes) {
+    if (this.#userMoney >= 500 && this.#coins.COIN_500) {
+      this.#userMoney -= 500;
+      this.#coins.COIN_500 -= 1;
+      changes.COIN_500 += 1;
+    }
+  }
+  #coinOneHundredBack(changes) {
+    if (this.#userMoney >= 100 && this.#coins.COIN_100) {
+      this.#userMoney -= 100;
+      this.#coins.COIN_100 -= 1;
+      changes.COIN_100 += 1;
+    }
+  }
+  #coinFiftyBack(changes) {
+    if (this.#userMoney >= 50 && this.#coins.COIN_50) {
+      this.#userMoney -= 50;
+      this.#coins.COIN_50 -= 1;
+      changes.COIN_50 += 1;
+    }
+  }
+  #coinTenBack(changes) {
+    if (this.#userMoney >= 10 && this.#coins.COIN_10) {
+      this.#userMoney -= 10;
+      this.#coins.COIN_10 -= 1;
+      changes.COIN_10 += 1;
+    }
+  }
+  getChanges() {
+    let changes = { COIN_500: 0, COIN_100: 0, COIN_50: 0, COIN_10: 0 };
+    while (this.#userMoney > 0 && !this.#isCoinsEmpty()) {
+      this.#coinFiveHundredBack(changes);
+      this.#coinOneHundredBack(changes);
+      this.#coinFiftyBack(changes);
+      this.#coinTenBack(changes);
+    }
+    return changes;
+  }
+
   getCoinsCount() {
     return this.#coins;
   }
