@@ -1,3 +1,4 @@
+const InputValidator = require("./InputValidator");
 const RandomCoinGenerator = require("./RandomCoinGenerator");
 
 class VendingMachine {
@@ -33,11 +34,10 @@ class VendingMachine {
   }
 
   addProduct(product) {
-    const newProduct = product
-      .map((product) => product.substring(1, product.length - 1).split(","))
-      .map((product) => ({ name: product[0], price: Number(product[1]), count: Number(product[2]) }));
+    const newProduct = product.substring(1, product.length - 1).split(",");
+    InputValidator.validateProductForm(newProduct);
 
-    this.#products.push(newProduct);
+    this.#products.push({ name: newProduct[0], price: Number(newProduct[1]), count: Number(newProduct[2]) });
   }
 
   getCoinsCount() {
