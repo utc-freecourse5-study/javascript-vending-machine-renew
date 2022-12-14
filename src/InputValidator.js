@@ -20,6 +20,15 @@ const InputValidator = {
       throw new Error("[ERROR] 투입 금액은 숫자 형식이어야 합니다.");
     }
   },
+
+  validateAvailablePurchase(product, userMoney) {
+    if (product.count <= 0) {
+      throw new Error("[ERROR] 해당 상품은 품절되었습니다.");
+    }
+    if (product.price > userMoney) {
+      throw new Error("[ERROR] 금액이 부족합니다.");
+    }
+  },
 };
 
 module.exports = InputValidator;
