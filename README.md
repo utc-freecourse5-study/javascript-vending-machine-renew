@@ -191,23 +191,18 @@ class VendingMachine {
 }
 ```
 
-### Coin 클래스
+### Coin 객체
 
-- 제공된 `Coin` 클래스를 활용해 구현해야 한다.
-- `Coin`에 필드(인스턴스 변수)를 추가할 수 있다.
+- 제공된 `Coin` 객체를 활용해 구현해야 한다.
 - `Coin`의 파일 경로는 변경할 수 있다.
-- 게임 진행을 위해 필요한 메서드를 추가 하거나 변경할 수 있다.
-- 필드(인스턴스 변수)인 `amount`의 접근 제어자를 변경할 수 없다.
 
 ```jsx
-class Coin {
-  #amount;
-
-  constructor(amount) {
-    this.#amount = amount;
-  }
-  // 추가 기능 구현
-}
+const Coin = {
+  COIN_500: 500,
+  COIN_100: 100,
+  COIN_50: 50,
+  COIN_10: 10,
+};
 ```
 
 ### 라이브러리
