@@ -31,8 +31,12 @@ class VendingMachine {
     }
   }
 
-  getCoins() {
-    console.log(this.#coins.COIN_500, this.#coins.COIN_100, this.#coins.COIN_50, this.#coins.COIN_10);
+  addProduct(product) {
+    const newProduct = product
+      .map((product) => product.substring(1, product.length - 1).split(","))
+      .map((product) => ({ name: product[0], price: Number(product[1]), count: Number(product[2]) }));
+
+    this.#products.push(newProduct);
   }
 }
 
