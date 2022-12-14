@@ -49,6 +49,16 @@ class VendingMachine {
     });
   }
 
+  isAvailablePurchase() {
+    let isAvailable = false;
+    this.#products.forEach((product) => {
+      if (product.price <= this.#userMoney && product.count > 0) {
+        isAvailable = true;
+      }
+    });
+    return isAvailable;
+  }
+
   getCoinsCount() {
     return this.#coins;
   }
