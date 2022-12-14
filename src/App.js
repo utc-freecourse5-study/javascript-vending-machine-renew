@@ -30,6 +30,17 @@ class App {
         OutputView.printErrorMessage(error);
         this.requestProducts();
       }
+      this.requestUserMoney();
+    });
+  }
+
+  requestUserMoney() {
+    InputView.readUserMoney((money) => {
+      if (!this.tryValidate(InputValidator.validateUserMoney, money)) {
+        this.requestUserMoney();
+        return;
+      }
+      this.#vendingMachine.setUserMoney(money);
     });
   }
 

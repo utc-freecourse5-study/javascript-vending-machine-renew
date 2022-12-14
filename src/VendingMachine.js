@@ -47,6 +47,10 @@ class VendingMachine {
   setUserMoney(money) {
     this.#userMoney = money;
   }
+
+  getUserMoney(money) {
+    return this.#userMoney;
+  }
 }
 
 module.exports = VendingMachine;
