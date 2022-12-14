@@ -21,6 +21,17 @@ class App {
     });
   }
 
+  requestProducts() {
+    InputView.readProductList((products) => {
+      try {
+        products.split(";").forEach((product) => this.#vendingMachine.addProduct(product));
+      } catch (error) {
+        OutputView.printErrorMessage(error);
+        this.requestProducts();
+      }
+    });
+  }
+
   tryValidate(validate, input) {
     try {
       validate(input);
