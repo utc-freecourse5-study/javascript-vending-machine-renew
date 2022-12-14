@@ -8,7 +8,7 @@ class VendingMachine {
     COIN_50: 0,
     COIN_10: 0,
   };
-  #money;
+  #userMoney;
   #products = [];
 
   constructor(money) {
@@ -44,8 +44,8 @@ class VendingMachine {
     return this.#coins;
   }
 
-  setMoney(money) {
-    this.#money = money;
+  setUserMoney(money) {
+    this.#userMoney = money;
   }
 }
 
