@@ -7,7 +7,7 @@ class VendingMachine {
     COIN_50: 0,
     COIN_10: 0,
   };
-  #money = 0;
+  #money;
   #products = [];
 
   constructor(money) {
