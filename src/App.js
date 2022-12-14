@@ -12,59 +12,52 @@ class App {
 
   requestVendingMachineCoin() {
     InputView.readVendingMachineMoney((money) => {
-      if (!this.tryValidate(InputValidator.validateVendingMachineMoney, money)) {
-        this.requestVendingMachineCoin();
-        return;
-      }
-      this.#vendingMachine = new VendingMachine(money);
-      OutputView.printVendingMachineCoins(this.#vendingMachine.getCoinsCount());
-      this.requestProducts();
+      this.errorHandling(() => {
+        InputValidator.validateVendingMachineMoney(money);
+        this.#vendingMachine = new VendingMachine(money);
+        OutputView.printVendingMachineCoins(this.#vendingMachine.getCoinsCount());
+        this.requestProducts();
+      }, this.requestVendingMachineCoin.bind(this));
     });
   }
 
   requestProducts() {
     InputView.readProductList((products) => {
-      try {
+      this.errorHandling(() => {
         products.split(";").forEach((product) => this.#vendingMachine.addProduct(product));
-      } catch (error) {
-        OutputView.printErrorMessage(error);
-        this.requestProducts();
-      }
-      this.requestUserMoney();
+        this.requestUserMoney();
+      }, this.requestProducts.bind(this));
     });
   }
 
   requestUserMoney() {
     InputView.readUserMoney((money) => {
-      if (!this.tryValidate(InputValidator.validateUserMoney, money)) {
-        this.requestUserMoney();
-        return;
-      }
-      this.#vendingMachine.setUserMoney(money);
+      this.errorHandling(() => {
+        InputValidator.validateUserMoney(money);
+        this.#vendingMachine.setUserMoney(money);
+        this.requestProductName();
+      }, this.requestUserMoney.bind(this));
     });
   }
 
   requestProductName() {
     OutputView.printCurrentUserMoney(this.#vendingMachine.getUserMoney());
     InputView.readProductName((productName) => {
-      if (!this.tryValidate(this.#vendingMachine.purchaseProduct, productName)) {
-        this.requestProductName();
-        return;
-      }
-      if (this.#vendingMachine.isAvailablePurchase()) this.requestProductName();
-      if (!this.#vendingMachine.isAvailablePurchase()) this.end();
+      this.errorHandling(() => {
+        this.#vendingMachine.purchaseProduct(productName);
+        if (this.#vendingMachine.isAvailablePurchase()) this.requestProductName();
+        if (!this.#vendingMachine.isAvailablePurchase()) this.end();
+      }, this.requestProductName.bind(this));
     });
   }
 
   end() {}
-
-  tryValidate(validate, input) {
+  errorHandling(callback, request) {
     try {
-      validate(input);
-      return true;
+      callback();
     } catch (error) {
       OutputView.printErrorMessage(error);
-      return false;
+      request();
     }
   }
 }
