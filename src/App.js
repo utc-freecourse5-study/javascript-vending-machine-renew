@@ -1,3 +1,4 @@
+const MissionUtils = require("@woowacourse/mission-utils");
 const InputValidator = require("./InputValidator");
 const InputView = require("./InputView");
 const OutputView = require("./OutputView");
@@ -51,7 +52,12 @@ class App {
     });
   }
 
-  end() {}
+  end() {
+    OutputView.printCurrentUserMoney(this.#vendingMachine.getUserMoney());
+    OutputView.printChanges(this.#vendingMachine.getChanges());
+    MissionUtils.Console.close();
+  }
+
   errorHandling(callback, request) {
     try {
       callback();
