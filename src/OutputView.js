@@ -2,7 +2,7 @@ const MissionUtils = require("@woowacourse/mission-utils");
 
 const OutputView = {
   printVendingMachineCoins({ COIN_500, COIN_100, COIN_50, COIN_10 }) {
-    MissionUtils.Console.print("\n자판기가 보유한 동전\n");
+    MissionUtils.Console.print("\n자판기가 보유한 동전");
     MissionUtils.Console.print(`500원 - ${COIN_500}개`);
     MissionUtils.Console.print(`100원 - ${COIN_100}개`);
     MissionUtils.Console.print(`50원 - ${COIN_50}개`);
@@ -10,7 +10,7 @@ const OutputView = {
   },
 
   printCurrentUserMoney(money) {
-    MissionUtils.Console.print(`투입 금액: ${money}원`);
+    MissionUtils.Console.print(`\n투입 금액: ${money}원`);
   },
 
   printChanges({ COIN_500, COIN_100, COIN_50, COIN_10 }) {

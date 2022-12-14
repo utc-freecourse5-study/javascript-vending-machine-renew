@@ -6,11 +6,11 @@ const InputView = {
   },
 
   readProductList(callback) {
-    MissionUtils.Console.readLine("상품명과 가격, 수량을 입력해 주세요.\n", callback);
+    MissionUtils.Console.readLine("\n상품명과 가격, 수량을 입력해 주세요.\n", callback);
   },
 
   readUserMoney(callback) {
-    MissionUtils.Console.readLine("투입 금액을 입력해 주세요.\n", callback);
+    MissionUtils.Console.readLine("\n투입 금액을 입력해 주세요.\n", callback);
   },
 
   readProductName(callback) {
