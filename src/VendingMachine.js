@@ -40,6 +40,10 @@ class VendingMachine {
     this.#products.push(newProduct);
   }
 
+  getCoinsCount() {
+    return this.#coins;
+  }
+
   setMoney(money) {
     this.#money = money;
   }
