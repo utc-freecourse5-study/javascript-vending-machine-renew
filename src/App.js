@@ -44,6 +44,17 @@ class App {
     });
   }
 
+  requestProductName() {
+    OutputView.printCurrentUserMoney(this.#vendingMachine.getUserMoney());
+    InputView.readProductName((productName) => {
+      this.#vendingMachine.purchaseProduct(productName);
+      if (this.#vendingMachine.isAvailablePurchase()) this.requestProductName();
+      if (!this.#vendingMachine.isAvailablePurchase()) this.end();
+    });
+  }
+
+  end() {}
+
   tryValidate(validate, input) {
     try {
       validate(input);
