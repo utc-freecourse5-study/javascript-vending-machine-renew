@@ -40,6 +40,15 @@ class VendingMachine {
     this.#products.push({ name: newProduct[0], price: Number(newProduct[1]), count: Number(newProduct[2]) });
   }
 
+  purchaseProduct(productName) {
+    this.#products.forEach((product) => {
+      if (product.name === productName) {
+        this.#userMoney -= product.price;
+        product.count -= 1;
+      }
+    });
+  }
+
   getCoinsCount() {
     return this.#coins;
   }
@@ -48,7 +57,7 @@ class VendingMachine {
     this.#userMoney = money;
   }
 
-  getUserMoney(money) {
+  getUserMoney() {
     return this.#userMoney;
   }
 }
