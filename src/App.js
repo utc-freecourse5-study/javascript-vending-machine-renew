@@ -18,6 +18,7 @@ class App {
       }
       this.#vendingMachine = new VendingMachine(money);
       OutputView.printVendingMachineCoins(this.#vendingMachine.getCoinsCount());
+      this.requestProducts();
     });
   }
 
