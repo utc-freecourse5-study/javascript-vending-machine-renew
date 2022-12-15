@@ -37,6 +37,26 @@ class VendingMachine {
   getChange() {
     return this.#changeTemplate();
   }
+
+  // -- InputItem
+  static removeItemBracket(item) {
+    return item.split(';').map((value) => value.replace(/\[\]/g, '').trim());
+  }
+
+  static makeItemData(item) {
+    const itemList = VendingMachine.removeItemBracket(item);
+    // console.log(itemList);
+
+    return itemList.reduce((acc, itemString) => {
+      const [name, price, count] = itemString.split(',');
+      return { ...acc, [name]: { price, count } };
+    }, {});
+  }
+
+  putItem(item) {
+    // console.log(VendingMachine.makeItemData(item))
+    this.#repo.update(MODEL_KEY.item, VendingMachine.makeItemData(item));
+  }
 }
 
 module.exports = VendingMachine;

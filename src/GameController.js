@@ -24,6 +24,10 @@ class GameController {
   outputChange() {
     return this.#service.getChange();
   }
+
+  inputItem(item) {
+    this.#service.putItem(item);
+  }
 }
 
 module.exports = Object.freeze(new GameController());
