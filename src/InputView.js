@@ -30,8 +30,29 @@ const InputView = {
     });
   },
 
-  // --ItemInput
-  readVendingItem() {},
+  // -- ItemInput
+  successVendingItemEvent(input) {
+    InputException.checkItem(input);
+    controller.inputItem(input);
+
+    this.readVendingMoney();
+  },
+
+  readVendingItemEvent(input) {
+    errorCheckFor(
+      () => this.successVendingItemEvent(input),
+      () => this.readVendingItem()
+    );
+  },
+
+  readVendingItem() {
+    Console.readLine(GAME_TEXT.item, (input) => {
+      this.readVendingItemEvent(input);
+    });
+  },
+
+  // -- MoneyInput
+  readVendingMoney() {},
 };
 
 module.exports = InputView;
