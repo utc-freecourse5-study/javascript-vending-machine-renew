@@ -55,9 +55,8 @@ const InputView = {
   successVendingMoneyEvent(input) {
     InputException.checkChange(input);
     controller.inputMoney(input);
-    OutputView.printMoney();
 
-    this.readVendingChoice();
+    this.readVendingChoiceItem();
   },
 
   readVendingMoneyEvent(input) {
@@ -76,7 +75,8 @@ const InputView = {
   // -- ChoiceItem
   tradePossible(input) {
     if (controller.checkItem(input)) {
-      controller.subTrackMoney();
+      OutputView.printMoney();
+      controller.subTrackMoney(input);
       this.readVendingChoiceItem();
     }
 
@@ -85,20 +85,21 @@ const InputView = {
 
   tradeImmposible(input) {
     if (!controller.checkItem(input)) {
+      OutputView.printMoney();
       OutputView.printFinalChange();
       Console.close();
     }
   },
 
   readVendingChoiceItemEvent(input) {
-    OutputView.printMoney();
-
-    this.tradePossible(input).tradeImmposible(input);
+    this.tradePossible(input);
   },
 
   readVendingChoiceItem() {
     Console.readLine(GAME_TEXT.choiceItem, (input) => {
       this.readVendingChoiceItemEvent(input);
+
+      this.tradeImmposible(input);
     });
   },
 };

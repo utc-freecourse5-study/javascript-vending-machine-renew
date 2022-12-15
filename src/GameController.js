@@ -34,15 +34,19 @@ class GameController {
   }
 
   outputMoney() {
-    this.#service.getMoney();
+    return this.#service.getMoney();
   }
 
   checkItem(item) {
     return this.#service.isPossibleTrade(item);
   }
 
-  subTrackMoney() {
-    this.#service.minusPutMoney();
+  subTrackMoney(item) {
+    this.#service.minusPutMoney(item);
+  }
+
+  outputFinalChange() {
+    return this.#service.changeMoney();
   }
 }
 

@@ -40,12 +40,11 @@ class VendingMachine {
 
   // -- Item
   static removeItemBracket(item) {
-    return item.split(';').map((value) => value.replace(/\[\]/g, '').trim());
+    return item.split(';').map((value) => value.replace(/[\\[\]]/g, '').trim());
   }
 
   static makeItemData(item) {
     const itemList = VendingMachine.removeItemBracket(item);
-    // console.log(itemList);
 
     return itemList.reduce((acc, itemString) => {
       const [name, price, count] = itemString.split(',');
@@ -54,7 +53,6 @@ class VendingMachine {
   }
 
   putItem(item) {
-    // console.log(VendingMachine.makeItemData(item))
     this.#repo.update(MODEL_KEY.item, VendingMachine.makeItemData(item));
   }
 
@@ -65,13 +63,11 @@ class VendingMachine {
 
   #moneyTemplate() {
     const money = this.#repo.read(MODEL_KEY.money);
-    // console.log(money);
 
     return `투입금액: ${money}원`;
   }
 
   getMoney() {
-    // console.log(this.#moneyTemplate());
     return this.#moneyTemplate();
   }
 
@@ -89,20 +85,83 @@ class VendingMachine {
     const itemDic = this.#repo.read(MODEL_KEY.item);
     const money = this.#repo.read(MODEL_KEY.money);
 
-    return itemDic[choiceItem].price >= money;
+    return itemDic[choiceItem].price <= money;
   }
 
   isPossibleTrade(item) {
-    // console.log(this.#isVendingItem(item))
-    // console.log(this.#isEnoughPrice(item))
     return this.#isVendingItem(item) && this.#isEnoughPrice(item);
   }
 
-  minusPutMoney() {
-    const { price } = this.#repo.read(MODEL_KEY.item);
+  minusPutMoney(choiceItem) {
+    const choiceItemInfo = this.#repo.read(MODEL_KEY.item)[choiceItem];
     const money = this.#repo.read(MODEL_KEY.money);
 
-    this.#repo.update(MODEL_KEY.money, price - money);
+    this.#repo.update(MODEL_KEY.money, money - choiceItemInfo.price);
+    this.#repo.update(MODEL_KEY.item, {
+      ...this.#repo.read(MODEL_KEY.item),
+      choiceItemInfo: {
+        price: choiceItemInfo.price,
+        count: choiceItemInfo.count - 1,
+      },
+    });
+  }
+
+  #sumAllChangeCount() {
+    const changeDic = this.#repo.read(MODEL_KEY.change);
+
+    return Object.values(changeDic).reduce((acc, count) => acc + count, 0);
+  }
+
+  #isChangeFor(coin, money) {
+    const changeDic = this.#repo.read(MODEL_KEY.change);
+
+    return changeDic[coin] > 0 && money >= coin;
+  }
+
+  #setChangeCountMinusOne(coin) {
+    const changeDic = this.#repo.read(MODEL_KEY.change);
+    const changeFinalDic = this.#repo.read(MODEL_KEY.final) || {};
+
+    this.#repo.update(MODEL_KEY.change, {
+      ...changeDic,
+      [coin]: changeDic[coin] - 1,
+    });
+
+    this.#repo.update(MODEL_KEY.final, {
+      ...changeFinalDic,
+      [coin]: (changeFinalDic[coin] || 0) + 1,
+    });
+  }
+
+  #changeMoneyEvent() {
+    while (
+      this.#repo.read(MODEL_KEY.money) > 0 &&
+      this.#sumAllChangeCount() !== 0
+    ) {
+      const money = this.#repo.read(MODEL_KEY.money);
+      if (this.#isChangeFor('500', money)) this.#setChangeCountMinusOne('500');
+      else if (this.#isChangeFor('100', money))
+        this.#setChangeCountMinusOne('100');
+      else if (this.#isChangeFor('50', money))
+        this.#setChangeCountMinusOne('50');
+      else if (this.#isChangeFor('10', money))
+        this.#setChangeCountMinusOne('10');
+    }
+  }
+
+  #changeFinalData() {
+    const changeData = this.#repo.read(MODEL_KEY.final);
+
+    return Object.entries(changeData)
+      .reverse()
+      .map(([coin, count]) => {
+        return `${coin}원 - ${count}개`;
+      });
+  }
+
+  changeMoney() {
+    this.#changeMoneyEvent();
+    return this.#changeFinalData();
   }
 }
 
