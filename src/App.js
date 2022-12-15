@@ -1,5 +1,11 @@
+const InputView = require('./InputView');
+
 class App {
-  play() {}
+  play() {
+    InputView.readVendingChange();
+
+    return this;
+  }
 }
 
 module.exports = App;
