@@ -49,7 +49,7 @@ class VendingMachine {
 
     return itemList.reduce((acc, itemString) => {
       const [name, price, count] = itemString.split(',');
-      return { ...acc, [name]: { price, count } };
+      return { ...acc, [name]: { price: +price, count: +count } };
     }, {});
   }
 
@@ -73,6 +73,29 @@ class VendingMachine {
   getMoney() {
     // console.log(this.#moneyTemplate());
     return this.#moneyTemplate();
+  }
+
+  // -- choice Item
+  // 해당 항목이 있는지 + 수량이 있는지, + 가격은 충분한지 (거래 가능한지)
+  #isVendingItem(choiceItem) {
+    const itemDic = this.#repo.read(MODEL_KEY.item);
+
+    return (
+      Object.keys(itemDic).includes(choiceItem) && itemDic[choiceItem].count > 0
+    );
+  }
+
+  #isEnoughPrice(choiceItem) {
+    const itemDic = this.#repo.read(MODEL_KEY.item);
+    const money = this.#repo.read(MODEL_KEY.money);
+
+    return itemDic[choiceItem].price >= money;
+  }
+
+  isPossibleTrade(item) {
+    // console.log(this.#isVendingItem(item))
+    // console.log(this.#isEnoughPrice(item))
+    return this.#isVendingItem(item) && this.#isEnoughPrice(item);
   }
 }
 

@@ -36,6 +36,10 @@ class GameController {
   outputMoney() {
     this.#service.getMoney();
   }
+
+  checkItem(item) {
+    return this.#service.isPossibleTrade(item);
+  }
 }
 
 module.exports = Object.freeze(new GameController());
