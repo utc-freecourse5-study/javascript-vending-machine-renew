@@ -76,6 +76,7 @@ const InputView = {
   // -- ChoiceItem
   tradePossible(input) {
     if (controller.checkItem(input)) {
+      controller.subTrackMoney();
       this.readVendingChoiceItem();
     }
 

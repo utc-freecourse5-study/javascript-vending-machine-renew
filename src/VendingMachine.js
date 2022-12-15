@@ -97,6 +97,13 @@ class VendingMachine {
     // console.log(this.#isEnoughPrice(item))
     return this.#isVendingItem(item) && this.#isEnoughPrice(item);
   }
+
+  minusPutMoney() {
+    const { price } = this.#repo.read(MODEL_KEY.item);
+    const money = this.#repo.read(MODEL_KEY.money);
+
+    this.#repo.update(MODEL_KEY.money, price - money);
+  }
 }
 
 module.exports = VendingMachine;

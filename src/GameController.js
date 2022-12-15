@@ -40,6 +40,10 @@ class GameController {
   checkItem(item) {
     return this.#service.isPossibleTrade(item);
   }
+
+  subTrackMoney() {
+    this.#service.minusPutMoney();
+  }
 }
 
 module.exports = Object.freeze(new GameController());
