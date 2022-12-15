@@ -9,6 +9,8 @@ const OutputView = {
   printMoney() {
     Console.print(controller.outputMoney());
   },
+
+  printFinalChange() {},
 };
 
 module.exports = OutputView;

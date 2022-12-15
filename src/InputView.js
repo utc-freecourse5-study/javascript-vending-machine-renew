@@ -73,7 +73,33 @@ const InputView = {
     });
   },
 
-  readVendingChoice() {},
+  // -- ChoiceItem
+  tradePossible(input) {
+    if (controller.checkItem(input)) {
+      this.readVendingChoiceItem();
+    }
+
+    return this;
+  },
+
+  tradeImmposible(input) {
+    if (!controller.checkItem(input)) {
+      OutputView.printFinalChange();
+      Console.close();
+    }
+  },
+
+  readVendingChoiceItemEvent(input) {
+    OutputView.printMoney();
+
+    this.tradePossible(input).tradeImmposible(input);
+  },
+
+  readVendingChoiceItem() {
+    Console.readLine(GAME_TEXT.choiceItem, (input) => {
+      this.readVendingChoiceItemEvent(input);
+    });
+  },
 };
 
 module.exports = InputView;
