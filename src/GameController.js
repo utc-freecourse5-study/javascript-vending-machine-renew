@@ -28,6 +28,14 @@ class GameController {
   inputItem(item) {
     this.#service.putItem(item);
   }
+
+  inputMoney(money) {
+    this.#service.putMoney(money);
+  }
+
+  outputMoney() {
+    this.#service.getMoney();
+  }
 }
 
 module.exports = Object.freeze(new GameController());

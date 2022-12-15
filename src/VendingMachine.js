@@ -38,7 +38,7 @@ class VendingMachine {
     return this.#changeTemplate();
   }
 
-  // -- InputItem
+  // -- Item
   static removeItemBracket(item) {
     return item.split(';').map((value) => value.replace(/\[\]/g, '').trim());
   }
@@ -56,6 +56,23 @@ class VendingMachine {
   putItem(item) {
     // console.log(VendingMachine.makeItemData(item))
     this.#repo.update(MODEL_KEY.item, VendingMachine.makeItemData(item));
+  }
+
+  // -- Money
+  putMoney(money) {
+    this.#repo.update(MODEL_KEY.money, Number(money));
+  }
+
+  #moneyTemplate() {
+    const money = this.#repo.read(MODEL_KEY.money);
+    // console.log(money);
+
+    return `투입금액: ${money}원`;
+  }
+
+  getMoney() {
+    // console.log(this.#moneyTemplate());
+    return this.#moneyTemplate();
   }
 }
 
