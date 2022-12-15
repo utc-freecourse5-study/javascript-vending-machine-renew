@@ -52,7 +52,28 @@ const InputView = {
   },
 
   // -- MoneyInput
-  readVendingMoney() {},
+  successVendingMoneyEvent(input) {
+    InputException.checkChange(input);
+    controller.inputMoney(input);
+    OutputView.printMoney();
+
+    this.readVendingChoice();
+  },
+
+  readVendingMoneyEvent(input) {
+    errorCheckFor(
+      () => this.successVendingMoneyEvent(input),
+      () => this.readVendingMoney()
+    );
+  },
+
+  readVendingMoney() {
+    Console.readLine(GAME_TEXT.money, (input) => {
+      this.readVendingMoneyEvent(input);
+    });
+  },
+
+  readVendingChoice() {},
 };
 
 module.exports = InputView;
