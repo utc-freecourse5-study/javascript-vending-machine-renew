@@ -92,14 +92,21 @@ const InputView = {
   },
 
   readVendingChoiceItemEvent(input) {
-    this.tradePossible(input);
+    OutputView.printMoney();
+    controller.subTrackMoney(input);
+
+    if (controller.checkItem(input)) {
+      this.readVendingChoiceItem();
+    } else {
+      OutputView.printMoney();
+      OutputView.printFinalChange();
+      Console.close();
+    }
   },
 
   readVendingChoiceItem() {
     Console.readLine(GAME_TEXT.choiceItem, (input) => {
       this.readVendingChoiceItemEvent(input);
-
-      this.tradeImmposible(input);
     });
   },
 };

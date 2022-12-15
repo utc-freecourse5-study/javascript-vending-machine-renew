@@ -64,7 +64,7 @@ class VendingMachine {
   #moneyTemplate() {
     const money = this.#repo.read(MODEL_KEY.money);
 
-    return `투입금액: ${money}원`;
+    return `투입 금액: ${money}원`;
   }
 
   getMoney() {
