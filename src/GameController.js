@@ -16,6 +16,14 @@ class GameController {
 
     this.#service = new VendingMachine();
   }
+
+  inputChange(change) {
+    this.#service.putChange(change);
+  }
+
+  outputChange() {
+    return this.#service.getChange();
+  }
 }
 
 module.exports = Object.freeze(new GameController());
